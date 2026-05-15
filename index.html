@@ -209,7 +209,7 @@
         .doctors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         .doctor-card { background: var(--off-white); border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); transition: box-shadow 0.3s; }
         .doctor-card:hover { box-shadow: 0 12px 48px rgba(184,150,90,0.15); }
-        .doctor-img { width: 100%; height: 300px; object-fit: cover; object-position: center top; display: block; }
+        .doctor-img { width: 100%; height: 340px; object-fit: cover; object-position: center center; display: block; }
         .doctor-img-ph { width: 100%; height: 380px; background: linear-gradient(160deg, #f0ece4, #e8e0d0); display: flex; align-items: center; justify-content: center; color: #d4be98; }
         .doctor-img-ph i { font-size: 4rem; }
         .doctor-info { padding: 26px 28px 32px; }
@@ -523,7 +523,7 @@
         </div>
         <div class="doctors-grid fade-in">
             <div class="doctor-card">
-                <img src="doctor.jpg" alt="Dra. Fernanda Amaya - Dento Studio" class="doctor-img"
+                <img src="doctor.jpg" alt="Dra. Fernanda Amaya - Dento Studio" class="doctor-img" style="object-position: center 65%;"
                      onerror="this.outerHTML='<div class=\'doctor-img-ph\'><i class=\'fas fa-user-doctor\'></i></div>'">
                 <div class="doctor-info">
                     <span class="doc-role">Directora &amp; Ortodoncia</span>
@@ -537,7 +537,7 @@
                 </div>
             </div>
             <div class="doctor-card">
-                <img src="dra-diana.jpg" alt="Dra. Diana Hernández - Dento Studio" class="doctor-img"
+                <img src="dra-diana.jpg" alt="Dra. Diana Hernández - Dento Studio" class="doctor-img" style="object-position: center 15%;"
                      onerror="this.outerHTML='<div class=\'doctor-img-ph\'><i class=\'fas fa-user-doctor\'></i></div>'">
                 <div class="doctor-info">
                     <span class="doc-role">Especialista</span>
