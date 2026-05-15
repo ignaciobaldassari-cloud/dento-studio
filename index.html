@@ -177,7 +177,11 @@
         .stat-item .s-label { font-size: 0.73rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
         @media (max-width: 768px) {
             .stats-bar .container { grid-template-columns: repeat(2,1fr); }
+            .stat-item { border-right: none; padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.07); gap: 10px; }
             .stat-item:nth-child(3), .stat-item:nth-child(4) { border-bottom: none; }
+            .stat-item i { font-size: 1.3rem; min-width: 22px; }
+            .stat-item .s-num { font-size: 1rem; }
+            .stat-item .s-label { font-size: 0.6rem; line-height: 1.4; }
         }
 
         /* ── SERVICES ── */
