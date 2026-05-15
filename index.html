@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dento Studio Querétaro - Odontología de alta especialidad. Ortodoncia, carillas, endodoncia y más. Dra. Fernanda Amaya - Plaza Sky Center, Querétaro.">
+    <title>Dento Studio | Odontología Querétaro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #B8965A;
+            --gold-light: #D0AE78;
+            --gold-dark: #8C6E3C;
+            --dark: #0d0d0d;
+            --dark-2: #1a1a1a;
+            --dark-3: #252525;
+            --white: #ffffff;
+            --off-white: #faf8f5;
+            --gray: #f2ede8;
+            --text: #2d2d2d;
+            --text-light: #6b6b6b;
+            --nav-height: 72px;
+        }
+
+        #progress-bar {
+            position: fixed; top: 0; left: 0; z-index: 9999;
+            height: 3px; width: 0%;
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+            transition: width 0.1s linear;
+            box-shadow: 0 0 8px rgba(184,150,90,0.6);
+        }
+
+        body { opacity: 0; transition: opacity 0.5s ease; }
+        body.loaded { opacity: 1; }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: 'Poppins', sans-serif; color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; line-height: 1.2; }
+        h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); }
+        h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
+        h3 { font-size: clamp(1.05rem, 2vw, 1.3rem); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header .label { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+        .section-header h2 { color: var(--dark); }
+        .section-header p { color: var(--text-light); margin-top: 16px; max-width: 560px; margin-left: auto; margin-right: auto; font-size: 1rem; }
+        .divider { width: 60px; height: 3px; background: var(--gold); margin: 20px auto 0; }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 4px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; }
+        .btn-gold { background: var(--gold); color: var(--white); border-color: var(--gold); }
+        .btn-gold:hover { background: var(--gold-light); border-color: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(184,150,90,0.4); }
+        .btn-outline { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.7); }
+        .btn-outline:hover { background: var(--white); color: var(--dark); transform: translateY(-2px); }
+
+        .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            #servicios, #nosotros, #tecnologia, #por-que,
+            #financiamiento, #opiniones, #faq, #ubicacion { padding: 52px 0; }
+            #cta-banner { padding: 48px 0; }
+            .section-header { margin-bottom: 32px; }
+            .container { padding: 0 18px; }
+            .hero-content { padding: 40px 0 52px; text-align: center; }
+            .hero-text h1 { font-size: 2.1rem; }
+            .hero-buttons { flex-direction: column; align-items: center; gap: 12px; }
+            .btn { width: 100%; justify-content: center; padding: 15px 24px; }
+            .hero-stats { grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 36px; padding-top: 28px; }
+            .hero-stat .num { font-size: 1.6rem; }
+            .hero-stat .desc { font-size: 0.65rem; }
+            .stats-bar .container { grid-template-columns: repeat(2,1fr); }
+            .stat-item { border-right: none; padding: 16px 14px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+            .stat-item .s-num { font-size: 1rem; }
+            .stat-item .s-label { font-size: 0.62rem; }
+            .doctors-grid { grid-template-columns: 1fr; gap: 28px; }
+            .tech-grid { grid-template-columns: 1fr; gap: 14px; }
+            .tech-card { padding: 22px 20px; display: flex; gap: 16px; align-items: flex-start; }
+            .tech-card i { font-size: 1.5rem; margin-bottom: 0; min-width: 28px; }
+            .why-grid { grid-template-columns: 1fr; gap: 14px; }
+            .why-card { padding: 20px 18px; gap: 14px; }
+            .financing-content { grid-template-columns: 1fr; gap: 28px; }
+            .testimonials-grid { grid-template-columns: 1fr; max-width: 100%; }
+            .location-grid { grid-template-columns: 1fr; gap: 32px; }
+            .map-container { height: 280px; }
+            .cta-inner h2 { font-size: 1.5rem; }
+            .cta-btn { width: 100%; justify-content: center; }
+            .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+            .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+            .whatsapp-float { width: 54px; height: 54px; bottom: 20px; right: 18px; }
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            height: var(--nav-height); display: flex; align-items: center;
+            background: transparent; transition: background 0.35s ease, box-shadow 0.35s ease;
+        }
+        nav.scrolled {
+            background: rgba(10,9,8,0.97); backdrop-filter: blur(12px);
+            box-shadow: 0 2px 24px rgba(0,0,0,0.35);
+        }
+        .nav-container { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .nav-logo { display: flex; align-items: center; gap: 12px; }
+        .nav-logo img { height: 44px; width: auto; filter: invert(1); mix-blend-mode: screen; }
+        .nav-links { display: flex; align-items: center; gap: 30px; }
+        .nav-links a { font-size: 0.85rem; font-weight: 500; color: rgba(255,255,255,0.82); transition: color 0.25s; }
+        .nav-links a:hover { color: var(--gold-light); }
+        .nav-cta { background: var(--gold) !important; color: var(--white) !important; padding: 10px 22px !important; border-radius: 4px; font-weight: 700 !important; }
+        .nav-cta:hover { background: var(--gold-light) !important; }
+        .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+        .nav-toggle span { width: 25px; height: 2px; background: var(--white); display: block; transition: all 0.3s; }
+        @media (max-width: 820px) {
+            .nav-toggle { display: flex; }
+            .nav-links { display: none; position: absolute; top: var(--nav-height); left: 0; right: 0; background: rgba(10,9,8,0.98); flex-direction: column; padding: 28px 24px; gap: 20px; border-top: 1px solid rgba(184,150,90,0.2); }
+            .nav-links.open { display: flex; }
+            .nav-links a { font-size: 1rem; }
+        }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0908 0%, #1a1308 55%, #0a0908 100%);
+            display: flex; align-items: center;
+            position: relative; overflow: hidden; padding-top: var(--nav-height);
+        }
+        #hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 72% 45%, rgba(184,150,90,0.13) 0%, transparent 55%); pointer-events: none; }
+        #hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 100px; background: linear-gradient(to top, var(--off-white), transparent); pointer-events: none; }
+        .hero-content { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; padding: 72px 0; }
+        .hero-text .label-hero { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold-light); background: rgba(184,150,90,0.12); padding: 6px 16px; border-radius: 2px; border-left: 3px solid var(--gold-light); margin-bottom: 26px; }
+        .hero-text h1 { color: var(--white); margin-bottom: 20px; }
+        .hero-text h1 em { color: var(--gold-light); font-style: normal; }
+        .hero-text p { color: rgba(255,255,255,0.68); font-size: 1.05rem; margin-bottom: 40px; max-width: 480px; }
+        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+        .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 52px; padding-top: 40px; border-top: 1px solid rgba(184,150,90,0.2); }
+        .hero-stat .num { font-size: 2.2rem; color: var(--gold-light); font-weight: 700; line-height: 1; }
+        .hero-stat .desc { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 6px; }
+        .hero-image { position: relative; display: flex; justify-content: center; }
+        .hero-image-frame { position: relative; width: 100%; max-width: 420px; }
+        .hero-image-frame::before { content: ''; position: absolute; top: -18px; right: -18px; width: 100%; height: 100%; border: 2px solid var(--gold); border-radius: 8px; z-index: 0; }
+        .hero-image-frame img { position: relative; z-index: 1; width: 100%; height: 540px; object-fit: cover; object-position: top center; border-radius: 8px; display: block; }
+        .hero-image-frame .img-placeholder { position: relative; z-index: 1; width: 100%; height: 540px; border-radius: 8px; background: linear-gradient(160deg, #18120a 0%, #241a0c 50%, #18120a 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; border: 1px solid rgba(184,150,90,0.2); }
+        .hero-image-frame .img-placeholder i { font-size: 5rem; color: var(--gold-light); opacity: 0.4; }
+        .hero-badge { position: absolute; bottom: 28px; left: -24px; z-index: 2; background: var(--gold); color: var(--white); padding: 16px 22px; border-radius: 6px; box-shadow: 0 10px 36px rgba(0,0,0,0.45); text-align: center; }
+        .hero-badge .b-num { font-size: 2.2rem; font-weight: 700; line-height: 1; }
+        .hero-badge .b-text { font-size: 0.7rem; font-weight: 700; margin-top: 2px; }
+        @media (max-width: 900px) {
+            .hero-content { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .hero-text p { margin-left: auto; margin-right: auto; }
+            .hero-buttons { justify-content: center; }
+            .hero-image { display: none; }
+        }
+
+        /* ── BADGES ── */
+        #badges { background: var(--white); padding: 36px 0; border-top: 1px solid rgba(0,0,0,0.06); border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .badges-grid { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 28px; }
+        .badge-item { display: flex; align-items: center; gap: 10px; color: var(--text-light); font-size: 0.82rem; font-weight: 500; }
+        .badge-item i { font-size: 1.3rem; color: var(--gold); }
+        @media (max-width: 768px) { .badges-grid { gap: 18px; } .badge-item { font-size: 0.75rem; } }
+
+        /* ── STATS BAR ── */
+        .stats-bar { background: var(--dark-2); padding: 36px 0; }
+        .stats-bar .container { display: grid; grid-template-columns: repeat(4, 1fr); }
+        .stat-item { display: flex; align-items: center; gap: 16px; padding: 0 28px; border-right: 1px solid rgba(255,255,255,0.07); }
+        .stat-item:last-child { border-right: none; }
+        .stat-item i { font-size: 1.9rem; color: var(--gold-light); min-width: 36px; }
+        .stat-item .s-num { font-size: 1.55rem; color: var(--white); font-weight: 700; line-height: 1; }
+        .stat-item .s-label { font-size: 0.73rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
+        @media (max-width: 768px) {
+            .stats-bar .container { grid-template-columns: repeat(2,1fr); }
+            .stat-item:nth-child(3), .stat-item:nth-child(4) { border-bottom: none; }
+        }
+
+        /* ── SERVICES ── */
+        #servicios { background: var(--off-white); padding: 100px 0; }
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .service-card { background: var(--white); border-radius: 8px; padding: 36px 26px; text-align: center; border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .service-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; }
+        .service-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+        .service-card:hover::after { transform: scaleX(1); }
+        .service-card .icon { width: 68px; height: 68px; background: rgba(184,150,90,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; transition: transform 0.3s ease, background 0.3s ease; }
+        .service-card:hover .icon { transform: scale(1.12) rotate(-4deg); background: rgba(184,150,90,0.2); }
+        .service-card .icon i { font-size: 1.7rem; color: var(--gold); }
+        .service-card h3 { color: var(--dark); margin-bottom: 12px; }
+        .service-card:hover h3 { color: var(--gold-dark); }
+        .service-card p { font-size: 0.86rem; color: var(--text-light); line-height: 1.6; }
+        @media (max-width: 1024px) and (min-width: 769px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) {
+            .services-grid { grid-template-columns: 1fr !important; gap: 12px; }
+            .service-card { padding: 18px 16px; display: flex !important; align-items: center; gap: 14px; text-align: left; }
+            .service-card::after { display: none; }
+            .service-card .icon { min-width: 48px; width: 48px; height: 48px; margin: 0; flex-shrink: 0; }
+            .service-card .icon i { font-size: 1.2rem; }
+            .service-card h3 { margin-bottom: 4px; font-size: 0.95rem; }
+            .service-card p { font-size: 0.82rem; }
+        }
+
+        /* ── DOCTORS ── */
+        #nosotros { padding: 100px 0; background: var(--white); }
+        .doctors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .doctor-card { background: var(--off-white); border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); transition: box-shadow 0.3s; }
+        .doctor-card:hover { box-shadow: 0 12px 48px rgba(184,150,90,0.15); }
+        .doctor-img { width: 100%; height: 380px; object-fit: cover; object-position: top center; display: block; }
+        .doctor-img-ph { width: 100%; height: 380px; background: linear-gradient(160deg, #f0ece4, #e8e0d0); display: flex; align-items: center; justify-content: center; color: #d4be98; }
+        .doctor-img-ph i { font-size: 4rem; }
+        .doctor-info { padding: 26px 28px 32px; }
+        .doctor-info .doc-role { display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+        .doctor-info h3 { color: var(--dark); font-size: 1.2rem; margin-bottom: 12px; }
+        .doctor-info p { color: var(--text-light); font-size: 0.88rem; line-height: 1.7; margin-bottom: 16px; }
+        .about-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { background: rgba(184,150,90,0.1); color: var(--gold-dark); border: 1px solid rgba(184,150,90,0.25); padding: 5px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+
+        /* ── TECHNOLOGY ── */
+        #tecnologia { background: var(--dark-2); padding: 100px 0; }
+        #tecnologia .section-header h2 { color: var(--white); }
+        #tecnologia .section-header p { color: rgba(255,255,255,0.55); }
+        #tecnologia .divider { background: var(--gold); }
+        .tech-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .tech-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(184,150,90,0.18); border-radius: 8px; padding: 36px 28px; transition: all 0.3s ease; }
+        .tech-card:hover { background: rgba(184,150,90,0.07); border-color: var(--gold-light); transform: translateY(-4px); }
+        .tech-card i { font-size: 2rem; color: var(--gold-light); margin-bottom: 20px; display: block; }
+        .tech-card h3 { color: var(--white); margin-bottom: 10px; font-size: 1rem; }
+        .tech-card p { color: rgba(255,255,255,0.48); font-size: 0.86rem; line-height: 1.65; }
+        @media (max-width: 820px) { .tech-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1024px) and (min-width: 821px) { .tech-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        /* ── WHY US ── */
+        #por-que { background: var(--off-white); padding: 100px 0; }
+        .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+        .why-card { background: var(--white); border-radius: 8px; padding: 36px; display: flex; gap: 22px; align-items: flex-start; box-shadow: 0 2px 20px rgba(0,0,0,0.05); transition: box-shadow 0.3s; }
+        .why-card:hover { box-shadow: 0 8px 40px rgba(184,150,90,0.12); }
+        .why-icon { min-width: 56px; height: 56px; background: rgba(184,150,90,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .why-icon i { font-size: 1.5rem; color: var(--gold); }
+        .why-text h3 { color: var(--dark); margin-bottom: 8px; }
+        .why-text p { color: var(--text-light); font-size: 0.9rem; }
+        @media (max-width: 768px) { .why-grid { grid-template-columns: 1fr; } }
+
+        /* ── COUNTER ── */
+        #contador { background: var(--dark); padding: 72px 0; }
+        .counter-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+        .counter-item { text-align: center; padding: 24px 16px; border-right: 1px solid rgba(255,255,255,0.07); }
+        .counter-item:last-child { border-right: none; }
+        .counter-item .c-num { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: var(--gold-light); line-height: 1; }
+        .counter-item .c-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-top: 8px; }
+        @media (max-width: 768px) {
+            .counter-grid { grid-template-columns: repeat(2,1fr); }
+            .counter-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); padding: 20px 12px; }
+            .counter-item:nth-child(3), .counter-item:nth-child(4) { border-bottom: none; }
+            .counter-item .c-num { font-size: 2rem; }
+        }
+
+        /* ── FINANCING ── */
+        #financiamiento { background: linear-gradient(135deg, #0a0908 0%, #1a1308 100%); padding: 88px 0; }
+        .financing-content { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+        .financing-text .label-fin { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 14px; }
+        .financing-text h2 { color: var(--white); margin-bottom: 18px; }
+        .financing-text p { color: rgba(255,255,255,0.58); margin-bottom: 32px; font-size: 0.95rem; }
+        .financing-cards { display: grid; gap: 18px; }
+        .fin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(184,150,90,0.25); border-radius: 8px; padding: 26px; display: flex; align-items: center; gap: 20px; transition: border-color 0.3s; }
+        .fin-card:hover { border-color: var(--gold-light); }
+        .fin-card i { font-size: 2rem; color: var(--gold-light); min-width: 36px; }
+        .fin-card h4 { color: var(--white); font-size: 0.95rem; margin-bottom: 5px; }
+        .fin-card p { color: rgba(255,255,255,0.48); font-size: 0.83rem; }
+
+        /* ── TESTIMONIALS ── */
+        #opiniones { background: var(--dark-2); padding: 100px 0; }
+        #opiniones .section-header h2 { color: var(--white); }
+        #opiniones .section-header p { color: rgba(255,255,255,0.55); }
+        .rating-badge { display: inline-flex; align-items: center; gap: 16px; background: rgba(184,150,90,0.12); border: 1px solid rgba(184,150,90,0.3); border-radius: 8px; padding: 16px 28px; margin: 0 auto 48px; }
+        .rating-badge .r-num { font-size: 2.8rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+        .rating-badge .r-info { display: flex; flex-direction: column; gap: 4px; }
+        .rating-badge .r-stars { display: flex; gap: 4px; }
+        .rating-badge .r-stars i { color: #FFB800; font-size: 1.1rem; }
+        .rating-badge .r-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .testimonial-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(184,150,90,0.18); border-radius: 10px; padding: 32px 28px; display: flex; flex-direction: column; gap: 20px; transition: border-color 0.3s, transform 0.3s; }
+        .testimonial-card:hover { border-color: var(--gold-light); transform: translateY(-4px); }
+        .testimonial-stars { display: flex; gap: 4px; }
+        .testimonial-stars i { color: #FFB800; font-size: 1rem; }
+        .testimonial-text { color: rgba(255,255,255,0.75); font-size: 0.92rem; line-height: 1.7; font-style: italic; flex: 1; }
+        .testimonial-text::before { content: '"'; font-size: 3rem; color: var(--gold-light); line-height: 0; vertical-align: -1rem; margin-right: 4px; opacity: 0.6; }
+        .testimonial-author { display: flex; align-items: center; gap: 14px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.07); }
+        .testimonial-avatar { width: 44px; height: 44px; border-radius: 50%; background: rgba(184,150,90,0.15); border: 2px solid rgba(184,150,90,0.3); display: flex; align-items: center; justify-content: center; }
+        .testimonial-avatar i { color: var(--gold-light); font-size: 1.1rem; }
+        .testimonial-author-info .name { color: var(--white); font-size: 0.88rem; font-weight: 600; }
+        .testimonial-author-info .source { color: rgba(255,255,255,0.38); font-size: 0.75rem; margin-top: 2px; }
+        @media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; } }
+
+        /* ── FAQ ── */
+        #faq { background: var(--off-white); padding: 100px 0; }
+        .faq-list { max-width: 760px; margin: 0 auto; display: grid; gap: 12px; }
+        .faq-item { background: var(--white); border-radius: 8px; border: 1px solid rgba(0,0,0,0.06); overflow: hidden; }
+        .faq-question { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; cursor: pointer; background: none; border: none; text-align: left; font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--dark); gap: 16px; transition: color 0.25s; }
+        .faq-question:hover { color: var(--gold); }
+        .faq-question i { color: var(--gold); font-size: 0.9rem; transition: transform 0.3s; flex-shrink: 0; }
+        .faq-item.open .faq-question i { transform: rotate(45deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+        .faq-answer p { padding: 0 24px 20px; font-size: 0.88rem; color: var(--text-light); line-height: 1.7; }
+        .faq-item.open .faq-answer { max-height: 200px; }
+        @media (max-width: 768px) {
+            .faq-question { padding: 16px 18px; font-size: 0.88rem; }
+            .faq-answer p { padding: 0 18px 16px; font-size: 0.84rem; }
+        }
+
+        /* ── LOCATION ── */
+        #ubicacion { background: var(--off-white); padding: 100px 0; }
+        .location-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 52px; align-items: start; }
+        .location-info .label { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+        .location-info h2 { color: var(--dark); margin-bottom: 36px; }
+        .info-item { display: flex; gap: 16px; margin-bottom: 28px; align-items: flex-start; }
+        .info-icon { min-width: 44px; height: 44px; background: rgba(184,150,90,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .info-icon i { color: var(--gold); font-size: 1.1rem; }
+        .info-text h4 { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light); margin-bottom: 6px; }
+        .info-text p, .info-text a { font-size: 0.93rem; color: var(--text); line-height: 1.55; }
+        .info-text a:hover { color: var(--gold); }
+        .hours-grid { display: grid; gap: 6px; }
+        .hours-row { display: flex; justify-content: space-between; font-size: 0.87rem; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .hours-row .day { color: var(--text-light); }
+        .hours-row .time { color: var(--text); font-weight: 500; }
+        .map-container { border-radius: 12px; overflow: hidden; box-shadow: 0 8px 48px rgba(0,0,0,0.12); height: 500px; }
+        .map-container iframe { width: 100%; height: 100%; border: 0; display: block; }
+        @media (max-width: 820px) { .location-grid { grid-template-columns: 1fr; } .map-container { height: 340px; } }
+
+        /* ── FOOTER ── */
+        footer { background: var(--dark); padding: 72px 0 36px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; margin-bottom: 52px; }
+        .footer-brand .logo-img { height: 40px; width: auto; filter: invert(1); mix-blend-mode: screen; opacity: 0.8; margin-bottom: 16px; }
+        .footer-brand .tagline-f { font-size: 0.68rem; letter-spacing: 3.5px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
+        .footer-brand p { font-size: 0.88rem; color: rgba(255,255,255,0.45); max-width: 290px; line-height: 1.75; margin-bottom: 26px; }
+        .social-links { display: flex; gap: 12px; }
+        .social-link { width: 40px; height: 40px; background: rgba(255,255,255,0.07); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.55); transition: all 0.3s; }
+        .social-link:hover { background: var(--gold); color: var(--white); transform: translateY(-2px); }
+        .footer-col h4 { color: var(--white); font-size: 0.75rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(184,150,90,0.25); }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { font-size: 0.87rem; color: rgba(255,255,255,0.45); transition: color 0.3s; }
+        .footer-col ul li a:hover { color: var(--gold-light); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; }
+        .footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.28); }
+
+        /* ── WHATSAPP ── */
+        .whatsapp-float { position: fixed; bottom: 28px; right: 28px; z-index: 999; width: 62px; height: 62px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.5); animation: pulse-wa 2.8s infinite; transition: transform 0.2s ease; }
+        .whatsapp-float:hover { transform: scale(1.1); animation: none; }
+        .whatsapp-float i { font-size: 1.9rem; color: var(--white); }
+        .wa-tooltip { position: absolute; right: 72px; background: var(--dark); color: var(--white); font-size: 0.78rem; white-space: nowrap; font-family: 'Poppins', sans-serif; padding: 8px 14px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+        .wa-tooltip::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-right: none; border-left-color: var(--dark); }
+        .whatsapp-float:hover .wa-tooltip { opacity: 1; }
+        @keyframes pulse-wa { 0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); } 50% { box-shadow: 0 4px 40px rgba(37,211,102,0.8), 0 0 0 14px rgba(37,211,102,0.08); } }
+
+        /* ── CTA BANNER ── */
+        #cta-banner { background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%); padding: 80px 0; text-align: center; }
+        .cta-inner { max-width: 680px; margin: 0 auto; }
+        .cta-inner .pre { font-size: 0.72rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+        .cta-inner h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--white); margin-bottom: 16px; }
+        .cta-inner p { color: rgba(255,255,255,0.8); font-size: 1rem; margin-bottom: 36px; }
+        .cta-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--dark); color: var(--gold-light); padding: 18px 40px; border-radius: 4px; font-size: 1rem; font-weight: 700; transition: all 0.3s ease; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        .cta-btn i { font-size: 1.3rem; color: #25D366; }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
+
+        /* ── SCROLL TOP ── */
+        .scroll-top { position: fixed; bottom: 102px; right: 30px; z-index: 998; width: 44px; height: 44px; background: rgba(184,150,90,0.88); border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--white); opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.2s; }
+        .scroll-top.visible { opacity: 1; pointer-events: all; }
+        .scroll-top:hover { background: var(--gold); transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+    <div class="nav-container">
+        <a href="#hero" class="nav-logo">
+            <img src="logo.png" alt="Dento Studio">
+        </a>
+        <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#opiniones">Opiniones</a></li>
+            <li><a href="#ubicacion">Ubicación</a></li>
+            <li><a href="https://wa.me/5214427096511?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Dento%20Studio" target="_blank" rel="noopener" class="nav-cta"><i class="fab fa-whatsapp"></i> Agendar Cita</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text fade-in">
+                <span class="label-hero">Querétaro, México &middot; Plaza Sky Center</span>
+                <h1>Odontología que transforma <em>sonrisas</em></h1>
+                <p>12 años de experiencia, tecnología de punta y especialistas certificadas para darte la sonrisa que mereces.</p>
+                <div class="hero-buttons">
+                    <a href="https://wa.me/5214427096511?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Dento%20Studio" target="_blank" rel="noopener" class="btn btn-gold"><i class="fab fa-whatsapp"></i> Agendar Cita</a>
+                    <a href="#servicios" class="btn btn-outline">Ver Servicios</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="num">12+</div>
+                        <div class="desc">Años de experiencia</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">1800+</div>
+                        <div class="desc">Pacientes atendidos</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">4.9 ★</div>
+                        <div class="desc">Calificación Google</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image fade-in">
+                <div class="hero-image-frame">
+                    <img src="doctor.jpg" alt="Dra. Fernanda Amaya - Dento Studio"
+                         onerror="this.style.display='none'; document.getElementById('heroImgPh').style.display='flex';">
+                    <div class="img-placeholder" id="heroImgPh" style="display:none;">
+                        <i class="fas fa-user-doctor"></i>
+                    </div>
+                    <div class="hero-badge">
+                        <div class="b-num">4.9</div>
+                        <div class="b-text">★ Google</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BADGES -->
+<div id="badges">
+    <div class="container">
+        <div class="badges-grid">
+            <div class="badge-item"><i class="fas fa-graduation-cap"></i> Posgrado en Ortodoncia</div>
+            <div class="badge-item"><i class="fas fa-credit-card"></i> Meses sin intereses</div>
+            <div class="badge-item"><i class="fas fa-star"></i> 4.9 en Google · 36 opiniones</div>
+            <div class="badge-item"><i class="fas fa-magnifying-glass"></i> Escáner Intraoral</div>
+            <div class="badge-item"><i class="fas fa-map-marker-alt"></i> Plaza Sky Center, Querétaro</div>
+        </div>
+    </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+    <div class="container">
+        <div class="stat-item"><i class="fas fa-tooth"></i><div><div class="s-num">1800+</div><div class="s-label">Pacientes atendidos</div></div></div>
+        <div class="stat-item"><i class="fas fa-star"></i><div><div class="s-num">4.9 ★</div><div class="s-label">36 opiniones en Google</div></div></div>
+        <div class="stat-item"><i class="fas fa-graduation-cap"></i><div><div class="s-num">Posgrado</div><div class="s-label">Ortodoncia y Ortopedia Maxilofacial</div></div></div>
+        <div class="stat-item"><i class="fas fa-credit-card"></i><div><div class="s-num">MSI</div><div class="s-label">Meses sin intereses disponibles</div></div></div>
+    </div>
+</div>
+
+<!-- SERVICES -->
+<section id="servicios">
+    <div class="container">
+        <div class="section-header fade-in">
+            <span class="label">Lo que hacemos</span>
+            <h2>Nuestros Servicios</h2>
+            <div class="divider"></div>
+            <p>Tratamientos especializados para transformar y cuidar tu sonrisa.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <div class="icon"><i class="fas fa-magnet"></i></div>
+                <h3>Ortodoncia</h3>
+                <p>Brackets y alineadores con posgrado especializado en Ortodoncia y Ortopedia Maxilofacial para resultados precisos y duraderos.</p>
+            </div>
+            <div class="service-card fade-in">
+                <div class="icon"><i class="fas fa-gem"></i></div>
+                <h3>Carillas Dentales</h3>
+                <p>Carillas de porcelana para transformar forma, color y tamaño de tus dientes. Diseño de sonrisa personalizado.</p>
+            </div>
+            <div class="service-card fade-in">
+                <div class="icon"><i class="fas fa-heart-pulse"></i></div>
+                <h3>Endodoncia</h3>
+                <p>Tratamiento de conductos para salvar dientes con infección o daño pulpar, de forma cómoda y sin dolor.</p>
+            </div>
+            <div class="service-card fade-in">
+                <div class="icon"><i class="fas fa-scissors"></i></div>
+                <h3>Cirugía Dental</h3>
+                <p>Extracciones y procedimientos quirúrgicos con máxima precisión y técnica para una recuperación rápida.</p>
+            </div>
+            <div class="service-card fade-in">
+                <div class="icon"><i class="fas fa-tooth"></i></div>
+                <h3>Odontología General</h3>
+                <p>Limpiezas, resinas, diagnóstico y prevención. El cuidado integral que tu boca necesita en cada visita.</p>
+            </div>
+            <div class="service-card fade-in">
+                <div class="icon"><i class="fas fa-sun"></i></div>
+                <h3>Estética Dental</h3>
+                <p>Blanqueamiento y tratamientos estéticos para que tu sonrisa refleje lo mejor de ti.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+    <div class="container">
+        <div class="section-header fade-in">
+            <span class="label">Conócenos</span>
+            <h2>Nuestro Equipo</h2>
+            <div class="divider"></div>
+            <p>Especialistas certificadas comprometidas con tu salud y tu sonrisa.</p>
+        </div>
+        <div class="doctors-grid fade-in">
+            <div class="doctor-card">
+                <img src="doctor.jpg" alt="Dra. Fernanda Amaya - Dento Studio" class="doctor-img"
+                     onerror="this.outerHTML='<div class=\'doctor-img-ph\'><i class=\'fas fa-user-doctor\'></i></div>'">
+                <div class="doctor-info">
+                    <span class="doc-role">Directora &amp; Ortodoncia</span>
+                    <h3>Dra. Fernanda Amaya</h3>
+                    <p>Con 12 años de experiencia y posgrado en Ortodoncia y Ortopedia Maxilofacial. Especialista en diseño de sonrisa, carillas y tratamientos de ortodoncia de alta precisión.</p>
+                    <div class="about-tags">
+                        <span class="tag">12 años de experiencia</span>
+                        <span class="tag">Posgrado Ortodoncia</span>
+                        <span class="tag">Diseño de sonrisa</span>
+                    </div>
+                </div>
+            </div>
+            <div class="doctor-card">
+                <img src="dra-diana.jpg" alt="Dra. Diana Hernández - Dento Studio" class="doctor-img"
+                     onerror="this.outerHTML='<div class=\'doctor-img-ph\'><i class=\'fas fa-user-doctor\'></i></div>'">
+                <div class="doctor-info">
+                    <span class="doc-role">Especialista</span>
+                    <h3>Dra. Diana Hernández</h3>
+                    <p>Especialista certificada con formación en la Universidad Autónoma de Querétaro. Comprometida con brindar atención de alta calidad con un trato cálido y profesional.</p>
+                    <div class="about-tags">
+                        <span class="tag">UAQ</span>
+                        <span class="tag">Especialista certificada</span>
+                        <span class="tag">Atención personalizada</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TECHNOLOGY -->
+<section id="tecnologia">
+    <div class="container">
+        <div class="section-header fade-in">
+            <span class="label" style="color:var(--gold-light)">Equipamiento</span>
+            <h2>Tecnología de Punta</h2>
+            <div class="divider"></div>
+            <p>Equipos modernos para diagnósticos más precisos y mejores resultados.</p>
+        </div>
+        <div class="tech-grid">
+            <div class="tech-card fade-in">
+                <i class="fas fa-magnifying-glass"></i>
+                <h3>Escáner Intraoral</h3>
+                <p>Escaneo digital 3D de toda la boca para planificación exacta de ortodoncia y diseño de sonrisa, sin moldes incómodos.</p>
+            </div>
+            <div class="tech-card fade-in">
+                <i class="fas fa-gem"></i>
+                <h3>Diseño Digital de Sonrisa</h3>
+                <p>Planificación digital de carillas y estética dental para que puedas ver el resultado antes de iniciar el tratamiento.</p>
+            </div>
+            <div class="tech-card fade-in">
+                <i class="fas fa-shield-halved"></i>
+                <h3>Bioseguridad Certificada</h3>
+                <p>Protocolos estrictos de esterilización y desinfección en cada procedimiento para tu tranquilidad y la de tu familia.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY US -->
+<section id="por-que">
+    <div class="container">
+        <div class="section-header fade-in">
+            <span class="label">Nuestra diferencia</span>
+            <h2>¿Por qué elegirnos?</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="why-grid">
+            <div class="why-card fade-in">
+                <div class="why-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div class="why-text">
+                    <h3>Especialización de alto nivel</h3>
+                    <p>La Dra. Fernanda cuenta con posgrado en Ortodoncia y Ortopedia Maxilofacial, garantizando tratamientos con los más altos estándares.</p>
+                </div>
+            </div>
+            <div class="why-card fade-in">
+                <div class="why-icon"><i class="fas fa-star"></i></div>
+                <div class="why-text">
+                    <h3>4.9 estrellas en Google</h3>
+                    <p>36 opiniones reales de pacientes satisfechos avalan nuestra calidad. La mejor referencia somos los resultados que entregamos cada día.</p>
+                </div>
+            </div>
+            <div class="why-card fade-in">
+                <div class="why-icon"><i class="fas fa-gem"></i></div>
+                <div class="why-text">
+                    <h3>Experiencia en estética dental</h3>
+                    <p>Casos de diseño de sonrisa, carillas y ortodoncia con resultados que transforman vidas. Cada tratamiento es único y personalizado.</p>
+                </div>
+            </div>
+            <div class="why-card fade-in">
+                <div class="why-icon"><i class="fas fa-credit-card"></i></div>
+                <div class="why-text">
+                    <h3>Financiamiento accesible</h3>
+                    <p>Meses sin intereses para que puedas iniciar tu tratamiento hoy. Tu sonrisa ideal está al alcance de tu presupuesto.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COUNTER -->
+<section id="contador">
+    <div class="container">
+        <div class="counter-grid">
+            <div class="counter-item">
+                <div class="c-num" data-target="12" data-suffix="+">0+</div>
+                <div class="c-label">Años de experiencia</div>
+            </div>
+            <div class="counter-item">
+                <div class="c-num" data-target="1800" data-suffix="+">0+</div>
+                <div class="c-label">Pacientes atendidos</div>
+            </div>
+            <div class="counter-item">
+                <div class="c-num" data-target="36" data-suffix="">0</div>
+                <div class="c-label">Opiniones en Google</div>
+            </div>
+            <div class="counter-item">
+                <div class="c-num" data-target="49" data-suffix="">0</div>
+                <div class="c-label">★ Calificación / 5</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FINANCING -->
+<section id="financiamiento">
+    <div class="container">
+        <div class="financing-content">
+            <div class="financing-text fade-in">
+                <span class="label-fin">Opciones de pago</span>
+                <h2>Tu sonrisa ideal sin preocupaciones</h2>
+                <p>Contamos con financiamiento flexible para que puedas iniciar tu tratamiento hoy sin esperar.</p>
+                <a href="https://wa.me/5214427096511?text=Hola%2C%20quisiera%20informaci%C3%B3n%20sobre%20financiamiento%20en%20Dento%20Studio" target="_blank" rel="noopener" class="btn btn-gold"><i class="fab fa-whatsapp"></i> Consultar Opciones</a>
+            </div>
+            <div class="financing-cards fade-in">
+                <div class="fin-card">
+                    <i class="fas fa-percentage"></i>
+                    <div><h4>Meses Sin Intereses</h4><p>Divide tu tratamiento en cómodas mensualidades sin cargo adicional.</p></div>
+                </div>
+                <div class="fin-card">
+                    <i class="fas fa-tag"></i>
+                    <div><h4>Consulta con Precio Especial</h4><p>Primera consulta a precio de acceso para que conozcas el consultorio sin compromiso.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="opiniones">
+    <div class="container">
+        <div class="section-header fade-in">
+            <span class="label" style="color:var(--gold-light)">Lo que dicen nuestros pacientes</span>
+            <h2>Opiniones Reales</h2>
+            <div class="divider"></div>
+            <div style="display:flex;justify-content:center;margin-top:28px;">
+                <div class="rating-badge">
+                    <span class="r-num">4.9</span>
+                    <div class="r-info">
+                        <div class="r-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <span class="r-label">36 opiniones en Google</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="testimonial-text">Excelente atención, la Dra. Fernanda es muy profesional y te explica todo el proceso con mucha paciencia. Quedé encantada con mis carillas.</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar"><i class="fas fa-user"></i></div>
+                    <div class="testimonial-author-info"><div class="name">Denisse</div><div class="source"><i class="fab fa-google" style="color:#EA4335;margin-right:4px"></i>Reseña de Google</div></div>
+                </div>
+            </div>
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="testimonial-text">Terminé mi ortodoncia y el resultado superó mis expectativas. El seguimiento fue impecable en todo momento. Totalmente recomendado.</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar"><i class="fas fa-user"></i></div>
+                    <div class="testimonial-author-info"><div class="name">Vanessa</div><div class="source"><i class="fab fa-google" style="color:#EA4335;margin-right:4px"></i>Reseña de Google</div></div>
+                </div>
+            </div>
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="testimonial-text">Me hice las carillas y quedé feliz con el resultado. Un consultorio muy bonito, limpio y con un equipo increíble. 100% recomendado.</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar"><i class="fas fa-user"></i></div>
+                    <div class="testimonial-author-info"><div class="name">Lucero</div><div class="source"><i class="fab fa-google" style="color:#EA4335;margin-right:4px"></i>Reseña de Google</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+    <div class="container">
+        <div class="section-header fade-in">
+            <span class="label">Preguntas frecuentes</span>
+            <h2>¿Tienes dudas?</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question">¿Cuánto tiempo dura el tratamiento de ortodoncia? <i class="fas fa-plus"></i></button>
+                <div class="faq-answer"><p>Depende de cada caso. La mayoría de tratamientos duran entre 18 y 24 meses. En la primera consulta la Dra. Fernanda te presenta un plan personalizado con tiempos estimados.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">¿Qué son las carillas y cuánto duran? <i class="fas fa-plus"></i></button>
+                <div class="faq-answer"><p>Las carillas son láminas de porcelana que se adhieren al frente del diente para mejorar forma, color y tamaño. Con buen cuidado duran entre 10 y 15 años.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">¿Tienen meses sin intereses? <i class="fas fa-plus"></i></button>
+                <div class="faq-answer"><p>Sí, contamos con opciones de meses sin intereses para los principales tratamientos. Escríbenos por WhatsApp para conocer las opciones disponibles.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">¿Cómo agendo mi primera consulta? <i class="fas fa-plus"></i></button>
+                <div class="faq-answer"><p>Es muy fácil: escríbenos por WhatsApp y te agendamos en el horario que mejor te convenga. La primera consulta tiene precio especial.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">¿Dónde están ubicados? <i class="fas fa-plus"></i></button>
+                <div class="faq-answer"><p>Estamos en Local 18, Plaza Sky Center, Av. del Parque 1161, La Alhambra, Santiago de Querétaro. De lunes a viernes de 10:00 a 19:00 y sábados de 10:00 a 14:00.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LOCATION -->
+<section id="ubicacion">
+    <div class="container">
+        <div class="location-grid">
+            <div class="location-info fade-in">
+                <span class="label">Encuéntranos</span>
+                <h2>Visítanos en Querétaro</h2>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-location-dot"></i></div>
+                    <div class="info-text">
+                        <h4>Dirección</h4>
+                        <p>Local 18, Plaza Sky Center<br>Av. del Parque 1161, La Alhambra<br>76074 Santiago de Querétaro, Qro.</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-clock"></i></div>
+                    <div class="info-text">
+                        <h4>Horarios</h4>
+                        <div class="hours-grid">
+                            <div class="hours-row"><span class="day">Lunes – Viernes</span><span class="time">10:00 – 19:00</span></div>
+                            <div class="hours-row"><span class="day">Sábado</span><span class="time">10:00 – 14:00</span></div>
+                            <div class="hours-row"><span class="day">Domingo</span><span class="time">Cerrado</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+                    <div class="info-text">
+                        <h4>WhatsApp</h4>
+                        <a href="https://wa.me/5214427096511" target="_blank" rel="noopener">+52 442 709 6511</a>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fab fa-instagram"></i></div>
+                    <div class="info-text">
+                        <h4>Instagram</h4>
+                        <a href="https://www.instagram.com/dentostudio.qro/" target="_blank" rel="noopener">@dentostudio.qro</a>
+                    </div>
+                </div>
+            </div>
+            <div class="map-container fade-in">
+                <iframe src="https://maps.google.com/maps?q=Av+del+Parque+1161+La+Alhambra+Santiago+de+Queretaro+Mexico&hl=es&z=16&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación Dento Studio Querétaro"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta-banner">
+    <div class="container">
+        <div class="cta-inner fade-in">
+            <div class="pre">¿Lista para transformar tu sonrisa?</div>
+            <h2>Agenda tu consulta con precio especial</h2>
+            <p>Conocé a nuestro equipo y recibí un diagnóstico personalizado. Sin compromiso.</p>
+            <a href="https://wa.me/5214427096511?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20mi%20consulta%20con%20precio%20especial%20en%20Dento%20Studio" target="_blank" rel="noopener" class="cta-btn"><i class="fab fa-whatsapp"></i> Agendar mi consulta ahora</a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="logo.png" alt="Dento Studio" class="logo-img">
+                <div class="tagline-f">Odontología · Querétaro</div>
+                <p>Especialistas en ortodoncia, carillas y estética dental en Plaza Sky Center, Querétaro. 12 años transformando sonrisas.</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/dentostudio.qro/" target="_blank" rel="noopener" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/DentoStudioQro" target="_blank" rel="noopener" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://wa.me/5214427096511" target="_blank" rel="noopener" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><a href="https://wa.me/5214427096511" target="_blank" rel="noopener">WhatsApp: 442 709 6511</a></li>
+                    <li><a href="https://www.instagram.com/dentostudio.qro/" target="_blank" rel="noopener">@dentostudio.qro</a></li>
+                    <li><a href="#ubicacion">Local 18, Plaza Sky Center</a></li>
+                    <li><a href="#ubicacion">Av. del Parque 1161, Querétaro</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Dento Studio &middot; Todos los derechos reservados</p>
+            <p>Odontología de alta especialidad en Querétaro</p>
+        </div>
+    </div>
+</footer>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/5214427096511?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Dento%20Studio" target="_blank" rel="noopener" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span class="wa-tooltip">¡Agendar cita!</span>
+</a>
+
+<button class="scroll-top" id="scrollTop"><i class="fas fa-chevron-up"></i></button>
+
+<script>
+    window.addEventListener('load', () => document.body.classList.add('loaded'));
+
+    const progressBar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+        progressBar.style.width = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100) + '%';
+    }, { passive: true });
+
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => scrollTopBtn.classList.toggle('visible', window.scrollY > 500), { passive: true });
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); fadeObserver.unobserve(entry.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+    document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.parentElement;
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        });
+    });
+
+    function animateCounter(el, target, suffix) {
+        const duration = 1800;
+        const start = performance.now();
+        const update = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const val = Math.floor(eased * target);
+            el.textContent = el.dataset.target === '49' ? (val / 10).toFixed(1) : val + suffix;
+            if (progress < 1) requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
+    }
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                animateCounter(el, parseInt(el.dataset.target), el.dataset.suffix || '');
+                counterObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
+</script>
+</body>
+</html>
